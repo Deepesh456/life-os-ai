@@ -1,16 +1,54 @@
-const TaskCard = () => {
+const TaskCard = ({ tasks = [] }) => {
+  const todayTasks = tasks.slice(0, 5);
+
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6">
-      <h2 className="text-xl font-bold mb-5">
-        Today's Tasks
+    <div className="app-card rounded-2xl shadow-md p-6 transition-colors duration-300">
+
+      <h2 className="text-xl font-bold mb-5 app-title">
+        📋 Today's Tasks
       </h2>
 
-      <ul className="space-y-3">
-        <li>✅ Complete internship task</li>
-        <li>📅 Team meeting at 2 PM</li>
-        <li>💧 Drink 8 glasses of water</li>
-        <li>🏃 Evening walk</li>
-      </ul>
+      {todayTasks.length === 0 ? (
+        <p className="app-muted">
+          No tasks available.
+        </p>
+      ) : (
+        <ul className="space-y-4">
+
+          {todayTasks.map((task) => (
+            <li
+              key={task._id}
+              className="flex items-center justify-between gap-4"
+            >
+
+              <span
+                className={
+                  task.completed
+                    ? "line-through text-gray-400 dark:text-gray-500"
+                    : "app-title"
+                }
+              >
+                {task.title}
+              </span>
+
+              <span
+                className={`text-sm font-semibold ${
+                  task.completed
+                    ? "app-success"
+                    : "app-warning"
+                }`}
+              >
+                {task.completed
+                  ? "Completed"
+                  : "Pending"}
+              </span>
+
+            </li>
+          ))}
+
+        </ul>
+      )}
+
     </div>
   );
 };

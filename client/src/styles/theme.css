@@ -1,0 +1,218 @@
+:root {
+  --bg-primary: #f3f4f6;
+  --bg-card: #ffffff;
+  --bg-secondary: #f9fafb;
+
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+
+  --border: #e5e7eb;
+
+  --primary: #7c3aed;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #dc2626;
+}
+
+.dark {
+  --bg-primary: #020617;
+  --bg-card: #1e293b;
+  --bg-secondary: #0f172a;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border: #334155;
+
+  --primary: #a78bfa;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+}
+
+
+/* Application Background */
+
+.app-bg {
+  background-color: var(--bg-primary);
+}
+
+
+/* Cards */
+
+.app-card {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+
+/* Secondary Background */
+
+.app-secondary {
+  background-color: var(--bg-secondary);
+}
+
+
+/* Text */
+
+.app-title {
+  color: var(--text-primary);
+}
+
+.app-text {
+  color: var(--text-secondary);
+}
+
+.app-muted {
+  color: var(--text-muted);
+}
+
+
+/* Borders */
+
+.app-border {
+  border-color: var(--border);
+}
+
+
+/* Status Colors */
+
+.app-primary {
+  color: var(--primary);
+}
+
+.app-success {
+  color: var(--success);
+}
+
+.app-warning {
+  color: var(--warning);
+}
+
+.app-danger {
+  color: var(--danger);
+}
+
+
+/* =========================================
+   React Big Calendar - Theme Fix
+   ========================================= */
+
+.rbc-calendar {
+  color: var(--text-primary) !important;
+}
+
+/* Calendar main views */
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+/* Month rows */
+
+.rbc-month-row {
+  border-color: var(--border) !important;
+}
+
+/* Normal day cells */
+
+.rbc-day-bg {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+/* Previous / next month cells */
+
+.rbc-off-range-bg {
+  background-color: var(--hover-bg) !important;
+}
+
+.rbc-off-range {
+  color: var(--text-muted) !important;
+}
+
+/* TODAY */
+
+.rbc-today {
+  background-color: rgba(124, 58, 237, 0.18) !important;
+}
+
+/* Date numbers */
+
+.rbc-date-cell {
+  color: var(--text-primary) !important;
+}
+
+/* Headers */
+
+.rbc-header {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+/* Toolbar */
+
+.rbc-toolbar {
+  color: var(--text-primary) !important;
+}
+
+.rbc-toolbar button {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+.rbc-toolbar button:hover {
+  background-color: var(--hover-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+.rbc-toolbar button.rbc-active {
+  background-color: #7c3aed !important;
+  color: #ffffff !important;
+  border-color: #7c3aed !important;
+}
+
+/* Time view */
+
+.rbc-time-header,
+.rbc-time-content {
+  border-color: var(--border) !important;
+}
+
+.rbc-time-slot {
+  border-color: var(--border) !important;
+}
+
+.rbc-label {
+  color: var(--text-muted) !important;
+}
+
+/* Agenda */
+
+.rbc-agenda-table {
+  border-color: var(--border) !important;
+}
+
+.rbc-agenda-table thead {
+  background-color: var(--hover-bg) !important;
+}
+
+.rbc-agenda-table td,
+.rbc-agenda-table th {
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+/* Current time line */
+
+.rbc-current-time-indicator {
+  background-color: #7c3aed !important;
+}

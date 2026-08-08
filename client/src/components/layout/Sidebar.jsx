@@ -1,22 +1,97 @@
+import { NavLink } from "react-router-dom";
+
+const menu = [
+  {
+    name: "Dashboard",
+    icon: "🏠",
+    path: "/dashboard",
+  },
+  {
+    name: "Calendar",
+    icon: "📅",
+    path: "/calendar",
+  },
+  {
+    name: "Tasks",
+    icon: "✅",
+    path: "/tasks",
+  },
+  {
+    name: "Goals",
+    icon: "🎯",
+    path: "/goals",
+  },
+  {
+    name: "Finance",
+    icon: "💰",
+    path: "/finance",
+  },
+  {
+    name: "Health",
+    icon: "❤️",
+    path: "/health",
+  },
+  {
+    name: "Notes",
+    icon: "📝",
+    path: "/notes",
+  },
+  {
+    name: "Meetings",
+    icon: "👥",
+    path: "/meetings",
+  },
+  {
+    name: "Settings",
+    icon: "⚙️",
+    path: "/settings",
+  },
+];
+
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-slate-900 text-white p-6">
-      <h1 className="text-2xl font-bold mb-10">
+    <aside className="h-screen w-64 bg-slate-900 dark:bg-black text-white flex flex-col p-6 overflow-y-auto">
+
+      {/* Logo */}
+
+      <h1 className="text-3xl font-bold mb-10 whitespace-nowrap">
         Life OS AI
       </h1>
 
-      <ul className="space-y-5">
-        <li>🏠 Dashboard</li>
-        <li>📅 Calendar</li>
-        <li>✅ Tasks</li>
-        <li>🎯 Goals</li>
-        <li>💰 Finance</li>
-        <li>❤️ Health</li>
-        <li>📝 Notes</li>
-        <li>👥 Meetings</li>
-        <li>⚙ Settings</li>
+      {/* Navigation */}
+
+      <ul className="space-y-3">
+
+        {menu.map((item) => (
+          <li key={item.path}>
+
+            <NavLink
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                  isActive
+                    ? "bg-purple-600 text-white shadow-lg"
+                    : "text-gray-200 hover:bg-slate-700 dark:hover:bg-slate-800"
+                }`
+              }
+            >
+
+              <span className="text-xl">
+                {item.icon}
+              </span>
+
+              <span className="font-medium">
+                {item.name}
+              </span>
+
+            </NavLink>
+
+          </li>
+        ))}
+
       </ul>
-    </div>
+
+    </aside>
   );
 };
 

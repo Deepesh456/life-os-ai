@@ -1,19 +1,34 @@
-const StatCard = ({ title, value, icon: Icon, color }) => {
+const StatCard = ({
+  title,
+  value,
+  icon: Icon,
+  color,
+}) => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition">
-      <div
-        className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}
-      >
-        <Icon className="text-2xl text-white" />
+    <div className="app-card rounded-2xl shadow-md p-6 transition-colors duration-300">
+
+      <div className="flex items-center justify-between">
+
+        <div>
+
+          <p className="app-text">
+            {title}
+          </p>
+
+          <h2 className="text-3xl font-bold mt-2 app-title">
+            {value}
+          </h2>
+
+        </div>
+
+        <div
+          className={`w-14 h-14 rounded-2xl flex items-center justify-center ${color}`}
+        >
+          <Icon className="text-2xl text-white" />
+        </div>
+
       </div>
 
-      <h3 className="mt-5 text-gray-500 text-sm">
-        {title}
-      </h3>
-
-      <h2 className="text-3xl font-bold mt-2">
-        {value}
-      </h2>
     </div>
   );
 };
