@@ -75,22 +75,20 @@ const AIInsights = ({
   );
 
   return (
-    <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl shadow-lg p-8 mt-8">
+    <div className="app-card rounded-2xl shadow p-6">
 
       {/* Header */}
 
       <div className="flex justify-between items-center mb-6">
 
         <div>
-
-          <h2 className="text-3xl font-bold">
+          <h2 className="text-3xl font-bold app-title">
             🤖 Life OS AI
           </h2>
 
-          <p className="text-purple-100 mt-1">
+          <p className="app-muted mt-1">
             {greeting} 👋
           </p>
-
         </div>
 
         <div className="text-5xl">
@@ -104,58 +102,58 @@ const AIInsights = ({
 
       <div className="grid md:grid-cols-2 gap-5">
 
-        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+        {/* Today's Events */}
 
-          <p className="text-purple-100">
+        <div className="app-card rounded-xl p-4">
+          <p className="app-muted">
             📅 Today's Events
           </p>
 
-          <div className="text-3xl font-bold mt-2">
+          <div className="text-3xl font-bold mt-2 app-title">
             {stats.todayEvents || 0}
           </div>
-
         </div>
 
 
-        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+        {/* Pending Tasks */}
 
-          <p className="text-purple-100">
+        <div className="app-card rounded-xl p-4">
+          <p className="app-muted">
             ✅ Pending Tasks
           </p>
 
-          <div className="text-3xl font-bold mt-2">
+          <div className="text-3xl font-bold mt-2 app-title">
             {stats.pendingTasks || 0}
           </div>
-
         </div>
 
 
-        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+        {/* Active Goals */}
 
-          <p className="text-purple-100">
+        <div className="app-card rounded-xl p-4">
+          <p className="app-muted">
             🎯 Active Goals
           </p>
 
-          <div className="text-3xl font-bold mt-2">
+          <div className="text-3xl font-bold mt-2 app-title">
             {stats.activeGoals || 0}
           </div>
-
         </div>
 
 
-        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+        {/* Balance */}
 
-          <p className="text-purple-100">
+        <div className="app-card rounded-xl p-4">
+          <p className="app-muted">
             💰 Balance
           </p>
 
-          <div className="text-2xl font-bold mt-2">
+          <div className="text-2xl font-bold mt-2 app-title">
             ₹
             {Number(
               stats.balance || 0
             ).toLocaleString("en-IN")}
           </div>
-
         </div>
 
       </div>
@@ -163,10 +161,10 @@ const AIInsights = ({
 
       {/* AI Recommendations */}
 
-      <div className="mt-8 bg-white/10 rounded-xl p-5 backdrop-blur-sm">
+      <div className="mt-8 app-card rounded-xl p-5">
 
-        <h3 className="text-xl font-bold mb-4">
-          ⭐ AI Recommendations
+        <h3 className="text-xl font-bold mb-4 app-title">
+          ⭐ Smart Recommendations
         </h3>
 
         <ul className="space-y-3">
@@ -175,14 +173,13 @@ const AIInsights = ({
             (item, index) => (
               <li
                 key={index}
-                className="flex gap-2 text-purple-50"
+                className="flex gap-2 app-text"
               >
                 <span>✅</span>
 
                 <span>
                   {item}
                 </span>
-
               </li>
             )
           )}
@@ -198,18 +195,17 @@ const AIInsights = ({
 
         <div className="flex justify-between mb-2">
 
-          <span className="font-semibold">
+          <span className="font-semibold app-title">
             🔥 Productivity Score
           </span>
 
-          <span className="font-bold">
+          <span className="font-bold app-title">
             {productivity}%
           </span>
 
         </div>
 
-
-        <div className="w-full bg-white/20 rounded-full h-4 overflow-hidden">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
 
           <div
             className="bg-green-400 h-full rounded-full transition-all duration-700"
