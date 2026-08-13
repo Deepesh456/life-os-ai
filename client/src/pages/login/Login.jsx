@@ -23,13 +23,25 @@ const Login = () => {
     try {
       const res = await api.post("/auth/login", form);
 
+      // Save authentication token
       localStorage.setItem("token", res.data.token);
+
+      // Save logged-in user information
+      if (res.data.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data.user)
+        );
+      }
 
       alert("Login Successful!");
 
       navigate("/");
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+      alert(
+        err.response?.data?.message ||
+          "Login failed"
+      );
     }
   };
 

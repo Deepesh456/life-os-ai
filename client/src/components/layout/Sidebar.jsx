@@ -50,17 +50,17 @@ const menu = [
 
 const Sidebar = () => {
   return (
-    <aside className="h-screen w-64 bg-slate-900 dark:bg-black text-white flex flex-col p-6 overflow-y-auto">
+    <aside className="h-screen w-full md:w-64 bg-slate-900 dark:bg-black text-white flex flex-col p-5 md:p-6 overflow-y-auto">
 
       {/* Logo */}
 
-      <h1 className="text-3xl font-bold mb-10 whitespace-nowrap">
+      <h1 className="text-2xl md:text-3xl font-bold mb-8 md:mb-10 whitespace-nowrap">
         Life OS AI
       </h1>
 
       {/* Navigation */}
 
-      <ul className="space-y-3">
+      <ul className="space-y-2 md:space-y-3">
 
         {menu.map((item) => (
           <li key={item.path}>

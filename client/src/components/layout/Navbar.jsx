@@ -16,17 +16,14 @@ import {
   FaStickyNote,
   FaUsers,
   FaHome,
+  FaBars,
 } from "react-icons/fa";
 
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { getDashboardData } from "../../services/dashboardService";
 
-const Navbar = () => {
-  const location = useLocation();
+const Navbar = ({ onMenuClick }) => {
   const navigate = useNavigate();
 
   // =========================
@@ -61,7 +58,6 @@ const Navbar = () => {
     email: "",
   });
 
-  // Search
   const [searchQuery, setSearchQuery] =
     useState("");
 
@@ -70,26 +66,6 @@ const Navbar = () => {
 
   const [selectedSearchIndex, setSelectedSearchIndex] =
     useState(0);
-
-  // =========================
-  // PAGE NAMES
-  // =========================
-
-  const pageNames = {
-    "/dashboard": "Dashboard",
-    "/calendar": "Calendar",
-    "/tasks": "Tasks",
-    "/goals": "Goals",
-    "/finance": "Finance",
-    "/health": "Health",
-    "/notes": "Notes",
-    "/meetings": "Meetings",
-    "/settings": "Settings",
-  };
-
-  const pageTitle =
-    pageNames[location.pathname] ||
-    "Life OS AI";
 
   // =========================
   // SEARCH MODULES
@@ -196,7 +172,7 @@ const Navbar = () => {
   ];
 
   // =========================
-  // FILTER SEARCH RESULTS
+  // FILTER SEARCH
   // =========================
 
   const filteredModules =
@@ -271,10 +247,6 @@ const Navbar = () => {
 
       const newNotifications = [];
 
-      // -------------------------
-      // Pending Tasks
-      // -------------------------
-
       if (pendingTasks.length > 0) {
         const highPriorityTasks =
           pendingTasks.filter(
@@ -312,10 +284,6 @@ const Navbar = () => {
         }
       }
 
-      // -------------------------
-      // Today's Events
-      // -------------------------
-
       if (todayEvents.length > 0) {
         const nextEvent = todayEvents[0];
 
@@ -337,10 +305,6 @@ const Navbar = () => {
         });
       }
 
-      // -------------------------
-      // Goals
-      // -------------------------
-
       if (activeGoals.length > 0) {
         newNotifications.push({
           id: "active-goals",
@@ -355,10 +319,6 @@ const Navbar = () => {
           }. Keep making progress today!`,
         });
       }
-
-      // -------------------------
-      // Expenses
-      // -------------------------
 
       const recentExpenses =
         recentTransactions
@@ -385,10 +345,6 @@ const Navbar = () => {
           )}. Consider reviewing your spending.`,
         });
       }
-
-      // -------------------------
-      // Default
-      // -------------------------
 
       if (newNotifications.length === 0) {
         newNotifications.push({
@@ -423,10 +379,6 @@ const Navbar = () => {
     }
   };
 
-  // =========================
-  // NOTIFICATION EFFECT
-  // =========================
-
   useEffect(() => {
     loadNotifications();
 
@@ -440,7 +392,7 @@ const Navbar = () => {
   }, []);
 
   // =========================
-  // CLOSE DROPDOWNS ON OUTSIDE CLICK
+  // OUTSIDE CLICK
   // =========================
 
   useEffect(() => {
@@ -487,7 +439,7 @@ const Navbar = () => {
   }, []);
 
   // =========================
-  // SEARCH NAVIGATION
+  // SEARCH
   // =========================
 
   const openSearchResult = (module) => {
@@ -497,10 +449,6 @@ const Navbar = () => {
     setShowSearchResults(false);
     setSelectedSearchIndex(0);
   };
-
-  // =========================
-  // SEARCH KEYBOARD
-  // =========================
 
   const handleSearchKeyDown = (event) => {
     if (!showSearchResults) {
@@ -568,7 +516,7 @@ const Navbar = () => {
   };
 
   // =========================
-  // OPEN PROFILE
+  // PROFILE
   // =========================
 
   const handleOpenProfile = () => {
@@ -577,12 +525,21 @@ const Navbar = () => {
     setShowProfileModal(true);
   };
 
-  // =========================
-  // CLOSE PROFILE
-  // =========================
-
   const handleCloseProfile = () => {
     setShowProfileModal(false);
+  };
+
+  // =========================
+  // CLOSE MOBILE MENU
+  // =========================
+
+  const handleNavigation = (path) => {
+    navigate(path);
+
+    if (onMenuClick) {
+      // Do not toggle here.
+      // Layout controls the sidebar.
+    }
   };
 
   // =========================
@@ -590,412 +547,458 @@ const Navbar = () => {
   // =========================
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 relative">
-
-      {/* =========================
-          PAGE TITLE
-      ========================= */}
-
-      <h2 className="text-2xl font-bold app-title">
-        {pageTitle}
-      </h2>
-
-
-      {/* =========================
-          RIGHT SIDE
-      ========================= */}
-
-      <div className="flex items-center gap-6">
+    <>
+      <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 relative">
 
         {/* =========================
-            SEARCH
+            MOBILE MENU
         ========================= */}
 
-        <div
-          ref={searchRef}
-          className="relative"
+        <button
+          type="button"
+          onClick={onMenuClick}
+          className="md:hidden text-xl app-title p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition"
+          aria-label="Open navigation menu"
         >
+          <FaBars />
+        </button>
 
-          <div className="flex items-center app-input px-4 py-2 rounded-xl">
 
-            <FaSearch className="app-muted mr-2" />
+        {/* =========================
+            DESKTOP SPACER
+        ========================= */}
 
-            <input
-              type="text"
-              value={searchQuery}
-              placeholder="Search..."
-              onChange={(event) => {
-                setSearchQuery(
-                  event.target.value
-                );
+        <div className="hidden md:block" />
 
-                setShowSearchResults(
-                  event.target.value.trim()
-                    .length > 0
-                );
 
-                setSelectedSearchIndex(0);
-              }}
-              onFocus={() => {
-                if (
-                  searchQuery.trim()
-                    .length > 0
-                ) {
-                  setShowSearchResults(
-                    true
+        {/* =========================
+            RIGHT SIDE
+        ========================= */}
+
+        <div className="flex items-center gap-3 sm:gap-5">
+
+          {/* =========================
+              SEARCH
+          ========================= */}
+
+          <div
+            ref={searchRef}
+            className="relative hidden sm:block"
+          >
+
+            <div className="flex items-center app-input px-4 py-2 rounded-xl">
+
+              <FaSearch className="app-muted mr-2" />
+
+              <input
+                type="text"
+                value={searchQuery}
+                placeholder="Search..."
+                onChange={(event) => {
+                  setSearchQuery(
+                    event.target.value
                   );
-                }
-              }}
-              onKeyDown={
-                handleSearchKeyDown
-              }
-              className="bg-transparent outline-none app-title w-32"
-              aria-label="Search Life OS modules"
-            />
 
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchQuery("");
                   setShowSearchResults(
-                    false
+                    event.target.value.trim()
+                      .length > 0
                   );
+
+                  setSelectedSearchIndex(0);
                 }}
-                className="app-muted hover:text-red-500 transition ml-1"
-              >
-                <FaTimes />
-              </button>
+                onFocus={() => {
+                  if (
+                    searchQuery.trim()
+                      .length > 0
+                  ) {
+                    setShowSearchResults(
+                      true
+                    );
+                  }
+                }}
+                onKeyDown={
+                  handleSearchKeyDown
+                }
+                className="bg-transparent outline-none app-title w-32 lg:w-40"
+                aria-label="Search Life OS modules"
+              />
+
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setShowSearchResults(
+                      false
+                    );
+                  }}
+                  className="app-muted hover:text-red-500 transition ml-1"
+                >
+                  <FaTimes />
+                </button>
+              )}
+
+            </div>
+
+
+            {/* SEARCH RESULTS */}
+
+            {showSearchResults && (
+              <div className="absolute right-0 top-12 w-72 app-card rounded-xl shadow-xl border app-border z-50 overflow-hidden">
+
+                {filteredModules.length > 0 ? (
+                  <div className="py-2">
+
+                    <p className="px-4 py-2 text-xs font-semibold app-muted uppercase">
+                      Suggested Modules
+                    </p>
+
+                    {filteredModules.map(
+                      (module, index) => {
+                        const Icon =
+                          module.icon;
+
+                        return (
+                          <button
+                            key={module.path}
+                            type="button"
+                            onMouseEnter={() =>
+                              setSelectedSearchIndex(
+                                index
+                              )
+                            }
+                            onClick={() =>
+                              openSearchResult(
+                                module
+                              )
+                            }
+                            className={`w-full flex items-center gap-3 px-4 py-3 text-left app-title transition ${
+                              selectedSearchIndex ===
+                              index
+                                ? "bg-purple-500/10"
+                                : "hover:bg-black/5 dark:hover:bg-white/5"
+                            }`}
+                          >
+
+                            <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
+
+                              <Icon className="text-purple-600" />
+
+                            </div>
+
+                            <div className="flex-1">
+
+                              <p className="font-semibold">
+                                {module.name}
+                              </p>
+
+                              <p className="text-xs app-muted">
+                                Open {module.name}
+                              </p>
+
+                            </div>
+
+                            {selectedSearchIndex ===
+                              index && (
+                              <span className="text-xs app-muted">
+                                Enter
+                              </span>
+                            )}
+
+                          </button>
+                        );
+                      }
+                    )}
+
+                  </div>
+                ) : (
+                  <div className="p-5 text-center">
+
+                    <FaSearch className="mx-auto text-2xl app-muted mb-2" />
+
+                    <p className="font-semibold app-title">
+                      No results found
+                    </p>
+
+                    <p className="text-sm app-muted mt-1">
+                      Try Tasks, Calendar,
+                      Finance or Goals.
+                    </p>
+
+                  </div>
+                )}
+
+              </div>
             )}
 
           </div>
 
 
           {/* =========================
-              SEARCH RESULTS
+              MOBILE SEARCH
           ========================= */}
-
-          {showSearchResults && (
-            <div className="absolute right-0 top-12 w-72 app-card rounded-xl shadow-xl border app-border z-50 overflow-hidden">
-
-              {filteredModules.length > 0 ? (
-                <div className="py-2">
-
-                  <p className="px-4 py-2 text-xs font-semibold app-muted uppercase">
-                    Suggested Modules
-                  </p>
-
-                  {filteredModules.map(
-                    (module, index) => {
-                      const Icon =
-                        module.icon;
-
-                      return (
-                        <button
-                          key={module.path}
-                          type="button"
-                          onMouseEnter={() =>
-                            setSelectedSearchIndex(
-                              index
-                            )
-                          }
-                          onClick={() =>
-                            openSearchResult(
-                              module
-                            )
-                          }
-                          className={`w-full flex items-center gap-3 px-4 py-3 text-left app-title transition ${
-                            selectedSearchIndex ===
-                            index
-                              ? "bg-purple-500/10"
-                              : "hover:bg-black/5 dark:hover:bg-white/5"
-                          }`}
-                        >
-
-                          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
-
-                            <Icon className="text-purple-600" />
-
-                          </div>
-
-                          <div className="flex-1">
-
-                            <p className="font-semibold">
-                              {module.name}
-                            </p>
-
-                            <p className="text-xs app-muted">
-                              Open {module.name}
-                            </p>
-
-                          </div>
-
-                          {selectedSearchIndex ===
-                            index && (
-                            <span className="text-xs app-muted">
-                              Enter
-                            </span>
-                          )}
-
-                        </button>
-                      );
-                    }
-                  )}
-
-                </div>
-              ) : (
-                <div className="p-5 text-center">
-
-                  <FaSearch className="mx-auto text-2xl app-muted mb-2" />
-
-                  <p className="font-semibold app-title">
-                    No results found
-                  </p>
-
-                  <p className="text-sm app-muted mt-1">
-                    Try searching for Tasks,
-                    Calendar, Finance or
-                    Goals.
-                  </p>
-
-                </div>
-              )}
-
-            </div>
-          )}
-
-        </div>
-
-
-        {/* =========================
-            NOTIFICATIONS
-        ========================= */}
-
-        <div
-          ref={notificationRef}
-          className="relative"
-        >
 
           <button
             type="button"
+            className="sm:hidden p-2 app-title rounded-lg hover:bg-black/5 dark:hover:bg-white/5"
             onClick={() => {
-              setShowNotifications(
-                !showNotifications
-              );
+              const query =
+                window.prompt(
+                  "Search Life OS AI"
+                );
 
-              setShowProfileMenu(false);
-              setShowSearchResults(false);
+              if (!query) return;
+
+              const result =
+                searchModules.find(
+                  (module) =>
+                    module.name
+                      .toLowerCase()
+                      .includes(
+                        query
+                          .toLowerCase()
+                          .trim()
+                      ) ||
+                    module.keywords.some(
+                      (keyword) =>
+                        keyword
+                          .toLowerCase()
+                          .includes(
+                            query
+                              .toLowerCase()
+                              .trim()
+                          )
+                    )
+                );
+
+              if (result) {
+                handleNavigation(
+                  result.path
+                );
+              }
             }}
-            className="relative"
           >
-
-            <FaBell
-              className="text-2xl cursor-pointer app-title hover:text-yellow-500 transition"
-            />
-
-            {notifications.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1">
-                {notifications.length}
-              </span>
-            )}
-
+            <FaSearch />
           </button>
 
 
-          {/* NOTIFICATION DROPDOWN */}
+          {/* =========================
+              NOTIFICATIONS
+          ========================= */}
 
-          {showNotifications && (
-            <div className="absolute right-0 top-10 w-96 app-card rounded-2xl shadow-xl border app-border z-50 overflow-hidden">
+          <div
+            ref={notificationRef}
+            className="relative"
+          >
 
-              <div className="flex items-center justify-between px-5 py-4 border-b app-border">
+            <button
+              type="button"
+              onClick={() => {
+                setShowNotifications(
+                  !showNotifications
+                );
 
-                <h3 className="text-lg font-semibold app-title">
-                  Notifications
-                </h3>
+                setShowProfileMenu(false);
+                setShowSearchResults(false);
+              }}
+              className="relative p-2"
+            >
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    setShowNotifications(
-                      false
-                    )
-                  }
-                  className="app-muted hover:text-red-500 transition"
-                >
-                  <FaTimes />
-                </button>
+              <FaBell
+                className="text-xl sm:text-2xl app-title hover:text-yellow-500 transition"
+              />
 
-              </div>
+              {notifications.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] sm:text-xs font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                  {notifications.length}
+                </span>
+              )}
+
+            </button>
 
 
-              <div className="max-h-96 overflow-y-auto">
+            {/* NOTIFICATION DROPDOWN */}
 
-                {loadingNotifications ? (
-                  <div className="p-6 text-center app-muted">
-                    Loading notifications...
-                  </div>
-                ) : (
-                  notifications.map(
-                    (notification) => (
-                      <div
-                        key={notification.id}
-                        className="px-5 py-4 border-b app-border hover:bg-black/5 dark:hover:bg-white/5 transition"
-                      >
+            {showNotifications && (
+              <div className="absolute right-0 top-12 w-[calc(100vw-2rem)] max-w-96 app-card rounded-2xl shadow-xl border app-border z-50 overflow-hidden">
 
-                        <div className="flex gap-4">
+                <div className="flex items-center justify-between px-5 py-4 border-b app-border">
 
-                          <div className="text-2xl">
-                            {notification.icon}
-                          </div>
+                  <h3 className="text-lg font-semibold app-title">
+                    Notifications
+                  </h3>
 
-                          <div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setShowNotifications(
+                        false
+                      )
+                    }
+                    className="app-muted hover:text-red-500 transition"
+                  >
+                    <FaTimes />
+                  </button>
 
-                            <h4 className="font-semibold app-title">
-                              {
-                                notification.title
-                              }
-                            </h4>
+                </div>
 
-                            <p className="text-sm app-muted mt-1">
-                              {
-                                notification.message
-                              }
-                            </p>
+                <div className="max-h-96 overflow-y-auto">
+
+                  {loadingNotifications ? (
+                    <div className="p-6 text-center app-muted">
+                      Loading notifications...
+                    </div>
+                  ) : (
+                    notifications.map(
+                      (notification) => (
+                        <div
+                          key={notification.id}
+                          className="px-5 py-4 border-b app-border"
+                        >
+
+                          <div className="flex gap-4">
+
+                            <div className="text-2xl">
+                              {notification.icon}
+                            </div>
+
+                            <div>
+
+                              <h4 className="font-semibold app-title">
+                                {
+                                  notification.title
+                                }
+                              </h4>
+
+                              <p className="text-sm app-muted mt-1">
+                                {
+                                  notification.message
+                                }
+                              </p>
+
+                            </div>
 
                           </div>
 
                         </div>
-
-                      </div>
+                      )
                     )
-                  )
-                )}
+                  )}
+
+                </div>
 
               </div>
+            )}
 
-            </div>
-          )}
-
-        </div>
+          </div>
 
 
-        {/* =========================
-            USER PROFILE
-        ========================= */}
+          {/* =========================
+              PROFILE
+          ========================= */}
 
-        <div
-          ref={profileRef}
-          className="relative"
-        >
-
-          <button
-            type="button"
-            onClick={() => {
-              setShowProfileMenu(
-                !showProfileMenu
-              );
-
-              setShowNotifications(false);
-              setShowSearchResults(false);
-            }}
+          <div
+            ref={profileRef}
+            className="relative"
           >
 
-            <FaUserCircle
-              className="text-3xl cursor-pointer text-purple-600 hover:text-purple-700 transition"
-            />
+            <button
+              type="button"
+              onClick={() => {
+                setShowProfileMenu(
+                  !showProfileMenu
+                );
 
-          </button>
+                setShowNotifications(false);
+                setShowSearchResults(false);
+              }}
+              className="p-1"
+            >
+
+              <FaUserCircle
+                className="text-3xl text-purple-600 hover:text-purple-700 transition"
+              />
+
+            </button>
 
 
-          {/* PROFILE DROPDOWN */}
+            {/* PROFILE DROPDOWN */}
 
-          {showProfileMenu && (
-            <div className="absolute right-0 top-12 w-56 app-card rounded-xl shadow-xl border app-border z-50 overflow-hidden">
+            {showProfileMenu && (
+              <div className="absolute right-0 top-12 w-56 app-card rounded-xl shadow-xl border app-border z-50 overflow-hidden">
 
-              {/* PROFILE HEADER */}
+                <div className="px-4 py-4 border-b app-border">
 
-              <div className="px-4 py-4 border-b app-border">
+                  <div className="flex items-center gap-3">
 
-                <div className="flex items-center gap-3">
+                    <FaUserCircle className="text-3xl text-purple-600" />
 
-                  <FaUserCircle className="text-3xl text-purple-600" />
+                    <div className="min-w-0">
 
-                  <div className="min-w-0">
+                      <p className="font-semibold app-title truncate">
+                        {user.name}
+                      </p>
 
-                    <p className="font-semibold app-title truncate">
-                      {user.name}
-                    </p>
+                      <p className="text-xs app-muted">
+                        Personal User
+                      </p>
 
-                    <p className="text-xs app-muted">
-                      Personal User
-                    </p>
+                    </div>
 
                   </div>
 
                 </div>
 
-              </div>
-
-
-              {/* PROFILE */}
-
-              <button
-                type="button"
-                onClick={handleOpenProfile}
-                className="w-full flex items-center gap-3 px-4 py-3 app-title hover:bg-black/5 dark:hover:bg-white/5 transition"
-              >
-
-                <FaUser className="app-muted" />
-
-                <span>
-                  Profile
-                </span>
-
-              </button>
-
-
-              {/* SETTINGS */}
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowProfileMenu(false);
-                  navigate("/settings");
-                }}
-                className="w-full flex items-center gap-3 px-4 py-3 app-title hover:bg-black/5 dark:hover:bg-white/5 transition"
-              >
-
-                <FaCog className="app-muted" />
-
-                <span>
-                  Settings
-                </span>
-
-              </button>
-
-
-              {/* LOGOUT */}
-
-              <div className="border-t app-border">
 
                 <button
                   type="button"
-                  onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition"
+                  onClick={handleOpenProfile}
+                  className="w-full flex items-center gap-3 px-4 py-3 app-title hover:bg-black/5 dark:hover:bg-white/5 transition"
                 >
-
-                  <FaSignOutAlt />
+                  <FaUser className="app-muted" />
 
                   <span>
-                    Logout
+                    Profile
                   </span>
-
                 </button>
 
-              </div>
 
-            </div>
-          )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    navigate("/settings");
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 app-title hover:bg-black/5 dark:hover:bg-white/5 transition"
+                >
+                  <FaCog className="app-muted" />
+
+                  <span>
+                    Settings
+                  </span>
+                </button>
+
+
+                <div className="border-t app-border">
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition"
+                  >
+                    <FaSignOutAlt />
+
+                    <span>
+                      Logout
+                    </span>
+                  </button>
+
+                </div>
+
+              </div>
+            )}
+
+          </div>
 
         </div>
 
@@ -1013,13 +1016,11 @@ const Navbar = () => {
         >
 
           <div
-            className="app-card w-[450px] max-w-full rounded-2xl shadow-2xl p-6"
+            className="app-card w-[450px] max-w-full rounded-2xl shadow-2xl p-6 max-h-[90vh] overflow-y-auto"
             onClick={(event) =>
               event.stopPropagation()
             }
           >
-
-            {/* HEADER */}
 
             <div className="flex items-center justify-between mb-6">
 
@@ -1040,8 +1041,6 @@ const Navbar = () => {
             </div>
 
 
-            {/* AVATAR */}
-
             <div className="flex flex-col items-center mb-6">
 
               <FaUserCircle className="text-7xl text-purple-600" />
@@ -1056,8 +1055,6 @@ const Navbar = () => {
 
             </div>
 
-
-            {/* INFORMATION */}
 
             <div className="space-y-4">
 
@@ -1080,7 +1077,7 @@ const Navbar = () => {
                   Email
                 </label>
 
-                <div className="app-input rounded-lg px-4 py-3 app-title">
+                <div className="app-input rounded-lg px-4 py-3 app-title break-all">
                   {user.email ||
                     "Email not available"}
                 </div>
@@ -1103,9 +1100,7 @@ const Navbar = () => {
             </div>
 
 
-            {/* ACTIONS */}
-
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
 
               <button
                 type="button"
@@ -1135,7 +1130,7 @@ const Navbar = () => {
         </div>
       )}
 
-    </div>
+    </>
   );
 };
 

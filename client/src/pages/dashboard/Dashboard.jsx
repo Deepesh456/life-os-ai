@@ -22,6 +22,16 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
 
+  // =========================
+  // USER
+  // =========================
+
+  const [userName, setUserName] = useState("User");
+
+  // =========================
+  // STATS
+  // =========================
+
   const [stats, setStats] = useState({
     todayEvents: 0,
     pendingTasks: 0,
@@ -45,6 +55,37 @@ const Dashboard = () => {
     weeklyActivity: [],
   });
 
+  // =========================
+  // LOAD LOGGED-IN USER
+  // =========================
+
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+
+        setUserName(
+          parsedUser.name ||
+            parsedUser.username ||
+            "User"
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Unable to load user:",
+        error
+      );
+
+      setUserName("User");
+    }
+  }, []);
+
+  // =========================
+  // LOAD DASHBOARD
+  // =========================
+
   useEffect(() => {
     fetchDashboard();
   }, []);
@@ -54,9 +95,19 @@ const Dashboard = () => {
       const res = await getDashboardData();
 
       setStats(res.data.stats || {});
-      setTodayEvents(res.data.todayEvents || []);
-      setPendingTasks(res.data.pendingTasks || []);
-      setActiveGoals(res.data.activeGoals || []);
+
+      setTodayEvents(
+        res.data.todayEvents || []
+      );
+
+      setPendingTasks(
+        res.data.pendingTasks || []
+      );
+
+      setActiveGoals(
+        res.data.activeGoals || []
+      );
+
       setRecentTransactions(
         res.data.recentTransactions || []
       );
@@ -77,6 +128,10 @@ const Dashboard = () => {
     }
   };
 
+  // =========================
+  // GREETING
+  // =========================
+
   const hour = new Date().getHours();
 
   const greeting =
@@ -86,6 +141,10 @@ const Dashboard = () => {
       ? "Good Afternoon"
       : "Good Evening";
 
+  // =========================
+  // RETURN
+  // =========================
+
   return (
     <Layout>
 
@@ -94,7 +153,7 @@ const Dashboard = () => {
       <div className="mb-8">
 
         <h1 className="text-4xl font-bold app-title">
-          {greeting}, Deepesh 👋
+          {greeting}, {userName} 👋
         </h1>
 
         <p className="app-text mt-2">
@@ -146,7 +205,6 @@ const Dashboard = () => {
 
           </div>
 
-
           {/* Dashboard Charts */}
 
           <div className="grid lg:grid-cols-2 gap-6 mt-8">
@@ -176,7 +234,6 @@ const Dashboard = () => {
             />
 
           </div>
-
 
           {/* Quick Actions */}
 
@@ -220,7 +277,6 @@ const Dashboard = () => {
 
           </div>
 
-
           {/* Today's Events & Pending Tasks */}
 
           <div className="grid lg:grid-cols-2 gap-6 mt-8">
@@ -259,7 +315,6 @@ const Dashboard = () => {
 
             </div>
 
-
             {/* Pending Tasks */}
 
             <div className="app-card rounded-2xl shadow p-6">
@@ -295,7 +350,6 @@ const Dashboard = () => {
 
           </div>
 
-
           {/* Transactions & Goals */}
 
           <div className="grid lg:grid-cols-2 gap-6 mt-6">
@@ -308,8 +362,7 @@ const Dashboard = () => {
                 💰 Recent Transactions
               </h2>
 
-              {recentTransactions.length ===
-              0 ? (
+              {recentTransactions.length === 0 ? (
                 <p className="app-muted">
                   No transactions
                 </p>
@@ -354,7 +407,6 @@ const Dashboard = () => {
 
             </div>
 
-
             {/* Active Goals */}
 
             <div className="app-card rounded-2xl shadow p-6">
@@ -389,7 +441,6 @@ const Dashboard = () => {
             </div>
 
           </div>
-
 
           {/* AI Summary */}
 
