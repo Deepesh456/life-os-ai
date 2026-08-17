@@ -63,19 +63,31 @@ const Login = () => {
           onChange={handleChange}
         />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="w-full border p-3 rounded-lg mb-6"
-          onChange={handleChange}
-        />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        className="w-full border p-3 rounded-lg mb-6"
+        onChange={handleChange}
+      />
 
+      <button
+        className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700"
+      >
+        Login
+      </button>
+
+      <p className="text-center mt-4 text-gray-600">
+        Don't have an account?{" "}
         <button
-          className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700"
+          type="button"
+          onClick={() => navigate("/register")}
+          className="text-purple-600 font-semibold hover:underline"
         >
-          Login
+          Register
         </button>
+      </p>
+
       </form>
     </div>
   );

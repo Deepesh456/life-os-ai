@@ -24,15 +24,22 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
 
-        {/* Redirect root to dashboard */}
+        {/* Default page */}
         <Route
           path="/"
-          element={<Navigate to="/dashboard" replace />}
+          element={<Navigate to="/login" replace />}
         />
 
         {/* Authentication */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
 
         {/* Dashboard */}
         <Route
@@ -124,10 +131,10 @@ const AppRoutes = () => {
           }
         />
 
-        {/* Catch all invalid routes */}
+        {/* Invalid URL */}
         <Route
           path="*"
-          element={<Navigate to="/dashboard" replace />}
+          element={<Navigate to="/login" replace />}
         />
 
       </Routes>
