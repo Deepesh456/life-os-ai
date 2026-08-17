@@ -36,7 +36,7 @@ const Login = () => {
 
       alert("Login Successful!");
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       alert(
         err.response?.data?.message ||
